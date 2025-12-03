@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playlist Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-page">
+        <div class="login-content">
+            <h1 class="login-title">🌙 LUNAR PLAYLIST CRAFT 🎵</h1>
+            <div class="login-form">
+                <h2>Welcome Back, Music Explorer!</h2>
+                <input type="text" id="usernameInput" placeholder="Enter your username" class="login-input">
+                <button id="loginBtn" class="login-btn">🌙 ENTER THE WORLD</button>
+                <div class="login-subtitle">Your playlists and mood history await...</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Entry Page -->
+    <div id="entryPage" class="entry-page hidden">
+        <div class="entry-content">
+            <div class="pixelated-text">
+                <span class="letter" data-letter="G">G</span>
+                <span class="letter" data-letter="E">E</span>
+                <span class="letter" data-letter="N">N</span>
+                <span class="letter" data-letter="E">E</span>
+                <span class="letter" data-letter="R">R</span>
+                <span class="letter" data-letter="A">A</span>
+                <span class="letter" data-letter="T">T</span>
+                <span class="letter" data-letter="E">E</span>
+                <span class="space"></span>
+                <span class="letter" data-letter="Y">Y</span>
+                <span class="letter" data-letter="O">O</span>
+                <span class="letter" data-letter="U">U</span>
+                <span class="letter" data-letter="R">R</span>
+                <span class="space"></span>
+                <span class="letter" data-letter="O">O</span>
+                <span class="letter" data-letter="W">W</span>
+                <span class="letter" data-letter="N">N</span>
+                <span class="space"></span>
+                <span class="letter" data-letter="P">P</span>
+                <span class="letter" data-letter="L">L</span>
+                <span class="letter" data-letter="A">A</span>
+                <span class="letter" data-letter="Y">Y</span>
+                <span class="letter" data-letter="L">L</span>
+                <span class="letter" data-letter="I">I</span>
+                <span class="letter" data-letter="S">S</span>
+                <span class="letter" data-letter="T">T</span>
+            </div>
+            <div class="entry-subtitle">Click anywhere to enter</div>
+        </div>
+        <audio id="letterSound" preload="auto" muted>
+            <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+        </audio>
+        <audio id="charmSound" preload="auto" muted>
+            <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+        </audio>
+    </div>
+
+    <!-- Floating Stickers for entire page -->
+    <div class="floating-stickers">
+    </div>
+
+    <!-- Main Website Content -->
+    <div id="mainContent" class="main-content hidden">
+    
+    <audio id="bgMusic" loop muted>
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+    </audio>
+    <audio id="bgMusic-peace" loop muted>
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+    </audio>
+    <audio id="bgMusic-phonk" loop muted>
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+    </audio>
+    <audio id="bgMusic-lofi" loop muted>
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+    </audio>
+    <audio id="bgMusic-synthwave" loop muted>
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+    </audio>
+    <audio id="bgMusic-trap" loop muted>
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+    </audio>
+    
+    <header>
+        <div class="logo">🌙 LUNAR PLAYLIST CRAFT 🎵</div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="generator-card">
+                <h1>⛏️ CRAFT YOUR PLAYLIST ⛏️</h1>
+                
+                <div class="form-group">
+                    <label for="mood">Select Mood:</label>
+                    <select id="mood">
+                        <option value="happy">🌟 Happy Vibes</option>
+                        <option value="chill">🌙 Lunar Chill</option>
+                        <option value="energetic">⚡ Energy Boost</option>
+                        <option value="sad">🌧️ Melancholy</option>
+                        <option value="romantic">💜 Romantic</option>
+                        <option value="focus">🔮 Focus Mode</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="genre">Genre:</label>
+                    <select id="genre">
+                        <option value="pop">Pop</option>
+                        <option value="rock">Rock</option>
+                        <option value="hip-hop">Hip Hop</option>
+                        <option value="electronic">Electronic</option>
+                        <option value="jazz">Jazz</option>
+                        <option value="classical">Classical</option>
+                        <option value="indie">Indie</option>
+                        <option value="bollywood">🎭 Bollywood</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="duration">Duration:</label>
+                    <select id="duration">
+                        <option value="30">30 minutes</option>
+                        <option value="60">1 hour</option>
+                        <option value="120">2 hours</option>
+                        <option value="180">3 hours</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="aiInput">🤖 Tell AI your preferences:</label>
+                    <input type="text" id="aiInput" placeholder="e.g., 'upbeat songs for workout' or 'romantic 90s hits'">
+                </div>
+                
+                <button id="generateBtn" class="generate-btn">🔨 CRAFT PLAYLIST 🔨</button>
+            </div>
+
+            <div id="playlistResult" class="playlist-result hidden">
+                <h2>🎶 YOUR CRAFTED PLAYLIST 🎶</h2>
+                <div class="playlist-info">
+                    <span id="playlistName"></span>
+                    <span id="playlistDuration"></span>
+                </div>
+                <div id="songList" class="song-list"></div>
+                
+                <div class="ai-section">
+                    <h3>🤖 AI RECOMMENDATIONS</h3>
+                    <div id="aiSuggestions" class="ai-suggestions"></div>
+                    <div class="ai-buttons">
+                        <button id="getMoreBtn" class="ai-btn">🧠 GET MORE SUGGESTIONS</button>
+                        <button id="addAIBtn" class="ai-btn ai-add-btn">🔮 DISCOVER GEMS</button>
+                    </div>
+                </div>
+                
+                <div class="save-section">
+                    <input type="text" id="playlistNameInput" placeholder="Enter playlist name (optional)" class="playlist-name-input">
+                    <button id="savePlaylistBtn" class="save-btn">💾 SAVE PLAYLIST</button>
+                    <button id="viewSavedBtn" class="view-saved-btn">📁 VIEW SAVED</button>
+                    <button id="spotifyBtn" class="spotify-btn">🎵 EXPORT TO SPOTIFY</button>
+                </div>
+                
+                <button id="newPlaylistBtn" class="new-playlist-btn">🆕 CRAFT NEW PLAYLIST 🆕</button>
+            </div>
+        </div>
+    </main>
+
+    <div class="saved-controls">
+        <button id="viewSavedControlBtn" class="saved-btn" title="View Saved Playlists">📁</button>
+        <button id="aiChatBtn" class="saved-btn" title="Chat with Luna AI">🤖</button>
+    </div>
+    
+    <div class="music-controls">
+        <button id="musicToggle" class="music-btn">🎵</button>
+        <select id="musicSelector" class="music-selector">
+            <option value="cute">🎵 Minecraft Cute</option>
+            <option value="peace">🕊️ Minecraft Peace</option>
+            <option value="phonk" selected>🔥 Minecraft Phonk</option>
+            <option value="lofi">🎧 Minecraft Lo-Fi</option>
+            <option value="synthwave">🌆 Minecraft Synthwave</option>
+            <option value="trap">💥 Minecraft Trap</option>
+            <option value="girlypop">🎀 Minecraft Girly Pop</option>
+        </select>
+        <input type="range" id="volumeSlider" min="0" max="100" value="8" class="volume-slider">
+    </div>
+    
+    </div> <!-- End main content -->
+    
+    <!-- Saved Playlists Modal -->
+    <div id="savedPlaylistsModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📁 SAVED PLAYLISTS</h2>
+                <button class="close-btn" onclick="closeSavedPlaylists()">❌</button>
+            </div>
+            <div id="savedPlaylistsList" class="saved-playlists-list"></div>
+        </div>
+    </div>
+    
+    <!-- AI Chat Modal -->
+    <div id="aiChatModal" class="modal hidden">
+        <div class="modal-content chat-modal">
+            <div class="modal-header">
+                <h2>🤖 CHAT WITH LUNA AI</h2>
+                <button class="close-btn" onclick="closeAIChat()">❌</button>
+            </div>
+            <div id="chatMessages" class="chat-messages"></div>
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="Tell me about your mood or what music you want..." class="chat-input">
+                <button id="sendChatBtn" class="send-btn">🚀 SEND</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

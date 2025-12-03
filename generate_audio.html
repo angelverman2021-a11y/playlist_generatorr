@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Audio Generator</title>
+</head>
+<body>
+    <h1>Minecraft Audio Generator</h1>
+    <div>
+        <button onclick="generateMinecraftAudio('cute')">Cute</button>
+        <button onclick="generateMinecraftAudio('peace')">Peace</button>
+        <button onclick="generateMinecraftAudio('phonk')">Phonk</button>
+        <button onclick="generateMinecraftAudio('lofi')">Lo-Fi</button>
+        <button onclick="generateMinecraftAudio('synthwave')">Synthwave</button>
+        <button onclick="generateMinecraftAudio('trap')">Trap</button>
+        <button onclick="generateMinecraftAudio('girlypop')">Girly Pop</button>
+    </div>
+    <script>
+        // Generate Minecraft melody for different music types
+        function generateMinecraftAudio(musicType) {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const settings = musicTypes[musicType];
+            
+            if (!settings) return;
+            
+            let noteIndex = 0;
+            
+            function playNote() {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                const frequency = minecraftMelody[noteIndex];
+                oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+                oscillator.type = settings.type;
+                
+                gainNode.gain.setValueAtTime(settings.volume, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.4);
+                
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + 0.5);
+                
+                noteIndex = (noteIndex + 1) % minecraftMelody.length;
+                
+                setTimeout(playNote, settings.speed);
+            }
+            
+            playNote();
+        }
+        
+        // Legacy function for single tone generation
+        function generateAudio(frequency, duration, type) {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+            oscillator.type = type;
+            
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+            
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + duration);
+        }
+        
+        // Minecraft melody notes (C418 "Sweden" theme)
+        const minecraftMelody = [523.25, 659.25, 783.99, 659.25, 523.25, 392.00, 523.25, 392.00];
+        
+        // Create different Minecraft-themed sounds for each genre
+        const musicTypes = {
+            cute: { type: 'sine', volume: 0.025, speed: 800 },        // Minecraft Cute - soft sine
+            peace: { type: 'sine', volume: 0.02, speed: 1200 },       // Minecraft Peace - slow sine
+            phonk: { type: 'sawtooth', volume: 0.035, speed: 600 },   // Minecraft Phonk - aggressive sawtooth
+            lofi: { type: 'triangle', volume: 0.03, speed: 1000 },    // Minecraft Lo-Fi - warm triangle
+            synthwave: { type: 'square', volume: 0.028, speed: 700 }, // Minecraft Synthwave - retro square
+            trap: { type: 'sawtooth', volume: 0.04, speed: 500 },     // Minecraft Trap - deep bass sawtooth
+            girlypop: { type: 'sine', volume: 0.022, speed: 650 }     // Minecraft Girly Pop - bright sine
+        };
+        
+        console.log('Minecraft Audio generator ready.');
+        console.log('Use generateMinecraftAudio("phonk") for Minecraft themes.');
+        console.log('Available types: cute, peace, phonk, lofi, synthwave, trap, girlypop');
+    </script>
+</body>
+</html>

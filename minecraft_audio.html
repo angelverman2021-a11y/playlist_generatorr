@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Minecraft Audio Generator</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .section { 
+            margin: 20px 0; 
+            padding: 20px; 
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        button { 
+            padding: 15px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        button:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .cute { background: linear-gradient(45deg, #ff9a9e, #fecfef); }
+        .peace { background: linear-gradient(45deg, #a8edea, #fed6e3); }
+        .phonk { background: linear-gradient(45deg, #2c3e50, #34495e); }
+        .lofi { background: linear-gradient(45deg, #ffecd2, #fcb69f); }
+        .synthwave { background: linear-gradient(45deg, #667eea, #764ba2); }
+        .trap { background: linear-gradient(45deg, #f093fb, #f5576c); }
+        .girlypop { background: linear-gradient(45deg, #ffeef8, #ff8a80); }
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .volume-control {
+            margin: 10px;
+        }
+        input[type="range"] {
+            width: 200px;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Minecraft Audio Generator 🎵</h1>
+        
+        <div class="section">
+            <h3>🎮 Choose Your Vibe</h3>
+            <div class="button-grid">
+                <button class="cute" onclick="generateMinecraftAudio('cute')">✨ Cute</button>
+                <button class="peace" onclick="generateMinecraftAudio('peace')">🕊️ Peace</button>
+                <button class="phonk" onclick="generateMinecraftAudio('phonk')">🔥 Phonk</button>
+                <button class="lofi" onclick="generateMinecraftAudio('lofi')">☁️ Lo-Fi</button>
+                <button class="synthwave" onclick="generateMinecraftAudio('synthwave')">🌆 Synthwave</button>
+                <button class="trap" onclick="generateMinecraftAudio('trap')">⚡ Trap</button>
+                <button class="girlypop" onclick="generateMinecraftAudio('girlypop')">💖 Girly Pop</button>
+            </div>
+        </div>
+
+        <div class="section controls">
+            <h3>🎛️ Controls</h3>
+            <div class="volume-control">
+                <label>Volume: </label>
+                <input type="range" id="volumeSlider" min="0" max="100" value="50">
+                <span id="volumeValue">50%</span>
+            </div>
+            <button onclick="stopAllAudio()" style="background: linear-gradient(45deg, #e74c3c, #c0392b);">🛑 Stop All</button>
+        </div>
+    </div>
+
+    <script>
+        let currentAudio = null;
+        let globalVolume = 0.5;
+
+        // Volume control
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeValue = document.getElementById('volumeValue');
+        
+        volumeSlider.addEventListener('input', function() {
+            globalVolume = this.value / 100;
+            volumeValue.textContent = this.value + '%';
+        });
+
+        function stopAllAudio() {
+            if (currentAudio) {
+                clearTimeout(currentAudio);
+                currentAudio = null;
+            }
+        }
+
+        function generateMinecraftAudio(musicType) {
+            stopAllAudio(); // Stop any currently playing audio
+            
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const settings = musicTypes[musicType];
+            
+            if (!settings) return;
+            
+            let noteIndex = 0;
+            let playCount = 0;
+            const maxNotes = 32; // Play melody 4 times
+            
+            function playNote() {
+                if (playCount >= maxNotes) return;
+                
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                const frequency = minecraftMelody[noteIndex];
+                oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+                oscillator.type = settings.type;
+                
+                const volume = settings.volume * globalVolume;
+                gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.4);
+                
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + 0.5);
+                
+                noteIndex = (noteIndex + 1) % minecraftMelody.length;
+                playCount++;
+                
+                currentAudio = setTimeout(playNote, settings.speed);
+            }
+            
+            playNote();
+        }
+        
+        const minecraftMelody = [523.25, 659.25, 783.99, 659.25, 523.25, 392.00, 523.25, 392.00];
+        
+        const musicTypes = {
+            cute: { type: 'sine', volume: 0.3, speed: 800 },
+            peace: { type: 'sine', volume: 0.25, speed: 1200 },
+            phonk: { type: 'sawtooth', volume: 0.4, speed: 600 },
+            lofi: { type: 'triangle', volume: 0.35, speed: 1000 },
+            synthwave: { type: 'square', volume: 0.3, speed: 700 },
+            trap: { type: 'sawtooth', volume: 0.45, speed: 500 },
+            girlypop: { type: 'sine', volume: 0.28, speed: 650 }
+        };
+    </script>
+</body>
+</html>
